@@ -1,0 +1,45 @@
+version: "3.5"
+
+services:
+  api-gateway:
+    build: ../../NPost.APIGateway
+    container_name: api-gateway
+    restart: always
+    environment:
+      NTRADA_CONFIG: ntrada.docker
+    ports:
+      - 5000:5000
+    networks:
+      - npost
+
+  deliveries-service:
+    build: ../../NPost.Services.Deliveries
+    container_name: deliveries-service
+    restart: always
+    ports:
+      - 5001:5000 
+    networks:
+      - npost
+
+  parcels-service:
+    build: ../../NPost.Services.Parcels
+    container_name: parcels-service
+    restart: always
+    ports:
+      - 5002:5000
+    networks:
+      - npost
+
+  routing-service:
+    build: ../../NPost.Services.Routing
+    container_name: routing-service
+    restart: always
+    ports:
+      - 5003:5000
+    networks:
+      - npost
+
+networks:
+  npost:
+    name: npost-network
+    external: true

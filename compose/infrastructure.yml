@@ -1,0 +1,74 @@
+version: "3.5"
+
+services:
+  consul:
+    image: consul
+    container_name: consul
+    restart: always
+    ports:
+      - 8500:8500
+    networks:
+      - npost
+    volumes:
+      - consul:/consul/data
+
+  fabio:
+    image: fabiolb/fabio
+    container_name: fabio
+    restart: always
+    environment:
+    - FABIO_REGISTRY_CONSUL_ADDR=consul:8500
+    networks:
+      - npost
+    ports:
+    - 9998:9998
+    - 9999:9999
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - npost
+    volumes:
+      - mongo:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - npost
+    volumes: 
+      - rabbitmq:/var/lib/rabbitmq
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - npost
+    volumes: 
+      - redis:/data
+
+networks:
+  npost:
+    name: npost-network
+
+volumes:
+  consul:
+    driver: local
+  mongo:
+    driver: local
+  rabbitmq:
+    driver: local
+  redis:
+    driver: local
+  
