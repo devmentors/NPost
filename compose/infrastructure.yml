@@ -9,8 +9,8 @@ services:
       - 8500:8500
     networks:
       - npost
-    volumes:
-      - consul:/consul/data
+    # volumes:
+    #   - consul:/consul/data
 
   fabio:
     image: fabiolb/fabio
@@ -44,8 +44,8 @@ services:
       - 15672:15672
     networks:
       - npost
-    volumes: 
-      - rabbitmq:/var/lib/rabbitmq
+    # volumes: 
+    #   - rabbitmq:/var/lib/rabbitmq
 
   redis:
     image: redis
@@ -63,12 +63,12 @@ networks:
     name: npost-network
 
 volumes:
-  consul:
-    driver: local
+  # consul:
+  #   driver: local
   mongo:
     driver: local
-  rabbitmq:
-    driver: local
+  # rabbitmq:
+  #   driver: local
   redis:
     driver: local
   
